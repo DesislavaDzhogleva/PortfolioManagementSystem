@@ -1,4 +1,5 @@
 ﻿using Common.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
@@ -12,11 +13,13 @@ namespace Common.Services
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly ILogger<BaseNotificationService<TEvent>> _logger;
         private readonly string _exchangeName;
         private readonly string _exchangeType;
 
         protected BaseNotificationService(
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<BaseNotificationService<TEvent>> logger,
             string exchangeName,
             string exchangeType = "fanout")
         {
@@ -28,7 +31,7 @@ namespace Common.Services
                 UserName = _rabbitMqSettings.Username,
                 Password = _rabbitMqSettings.Password
             };
-
+            _logger = logger;
             _exchangeName = exchangeName;
             _exchangeType = exchangeType;
 
@@ -50,7 +53,7 @@ namespace Common.Services
                 body: body
             );
 
-            //TODO: Add logger
+            _logger.LogInformation($"Event published: {message}");
         }
 
         public void Dispose()

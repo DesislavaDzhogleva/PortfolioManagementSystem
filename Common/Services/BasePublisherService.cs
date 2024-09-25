@@ -1,5 +1,6 @@
 ﻿using Common.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System.Text;
@@ -12,11 +13,13 @@ namespace Common.Services
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly ILogger<BasePublisherService<TEvent>> _logger;
         private Timer _timer;
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1); 
+        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         protected BasePublisherService (
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<BasePublisherService<TEvent>> logger,
             string exchangeName,
             string exchangeType = "fanout")
         {
@@ -27,6 +30,7 @@ namespace Common.Services
             _channel = _connection.CreateModel();
 
             _channel.ExchangeDeclare(exchange: exchangeName, type: exchangeType);
+            _logger = logger;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -56,7 +60,7 @@ namespace Common.Services
             }
             catch (Exception ex)
             {
-                // TODO: Logging
+                _logger.LogError(ex, "Error while publishing event");
             }
             finally
             {

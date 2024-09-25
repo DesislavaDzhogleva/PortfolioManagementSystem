@@ -13,8 +13,10 @@ namespace Portfolios.Services
 
         public PriceEventSubsriber(
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<PriceEventSubsriber> logger,
             IServiceProvider serviceProvider)
             : base(rabbitMqOptions.Value,
+                    logger,
                     rabbitMqOptions.Value.Exchanges.PricesExchange.Name,
                     rabbitMqOptions.Value.Exchanges.PricesExchange.Type)
         {

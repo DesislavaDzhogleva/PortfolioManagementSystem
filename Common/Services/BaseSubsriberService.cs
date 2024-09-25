@@ -1,5 +1,6 @@
 ﻿using Common.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -10,17 +11,19 @@ namespace Common.Services
     public abstract class BaseSubsriberService<TMessage> : BackgroundService
     {
         private readonly RabbitMqSettings _rabbitMqSettings;
+        private readonly ILogger<BaseSubsriberService<TMessage>> _logger;
         private IConnection _connection;
         private IModel _channel;
         private string _queueName;
 
         protected BaseSubsriberService(
             RabbitMqSettings rabbitMqSettings,
+            ILogger<BaseSubsriberService<TMessage>> logger,
             string exchangeName,
             string exchangeType = "fanout")
         {
             _rabbitMqSettings = rabbitMqSettings;
-
+            _logger = logger;
             var factory = new ConnectionFactory()
             {
                 HostName = _rabbitMqSettings.Hostname,
@@ -72,7 +75,7 @@ namespace Common.Services
 
         protected virtual void HandleError(string message, Exception ex)
         {
-           //TODO: Logging
+          _logger.LogError(ex, $"Error while processing message: {message}");
         }
 
         public override Task StopAsync(CancellationToken stoppingToken)

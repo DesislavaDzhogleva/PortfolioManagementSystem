@@ -12,8 +12,10 @@ namespace Orders.Services
 
         public PriceSubsriber(
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<PriceSubsriber> logger,
             IMemoryCache priceCache)
             : base(rabbitMqOptions.Value,
+                   logger,
                    rabbitMqOptions.Value.Exchanges.PricesExchange.Name, 
                    rabbitMqOptions.Value.Exchanges.PricesExchange.Type)
         {

@@ -10,8 +10,10 @@ namespace Orders.Services
     public class OrderPublisher : BaseNotificationService<OrderExecuteEvent>, IOrderPublisher
     {
         public OrderPublisher(
-            IOptions<RabbitMqSettings> rabbitMqOptions) 
+            IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<OrderPublisher> logger) 
                 : base(rabbitMqOptions,
+                       logger,
                        rabbitMqOptions.Value.Exchanges.OrderExchange.Name,
                        rabbitMqOptions.Value.Exchanges.OrderExchange.Type)
         {

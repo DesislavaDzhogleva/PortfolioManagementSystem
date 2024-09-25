@@ -12,8 +12,10 @@ namespace Portfolios.Services
 
         public OrderEventSubcriber(
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<OrderEventSubcriber> logger,
             IServiceProvider serviceProvider)
             : base(rabbitMqOptions.Value,
+                   logger,
                    rabbitMqOptions.Value.Exchanges.OrderExchange.Name,
                    rabbitMqOptions.Value.Exchanges.OrderExchange.Type)
         {

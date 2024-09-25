@@ -8,15 +8,19 @@ namespace Prices.Services
 {
     public class PricePublisher : BasePublisherService<PriceUpdatedEvent>
     {
+        private readonly ILogger _logger;
         private readonly IServiceProvider _serviceProvider;
 
         public PricePublisher(
             IOptions<RabbitMqSettings> rabbitMqOptions,
+            ILogger<PricePublisher> logger,
             IServiceProvider serviceProvider)
-                : base(rabbitMqOptions, 
+                : base(rabbitMqOptions,
+                       logger,
                        rabbitMqOptions.Value.Exchanges.PricesExchange.Name, 
                        rabbitMqOptions.Value.Exchanges.PricesExchange.Type)
         {
+            _logger = logger;
             _serviceProvider = serviceProvider;
         }
 
