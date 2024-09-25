@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Prices.Models
+namespace Orders.Models
 {
-    public class StockInputModel
+    public class OrderRequest
     {
         [Required]
         [MaxLength(50)]
         public string Ticker { get; set; }
 
         [Required]
-        [MaxLength(200)]
-        public string CompanyName { get; set; }
+        public int Quantity { get; set; }
+
+        [Required]
+        public string Side { get; set; }
     }
 }

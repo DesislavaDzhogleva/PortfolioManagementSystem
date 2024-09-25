@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Common.Services
 {
-    public abstract class BasePublisher<TEvent> : BackgroundService
+    public abstract class BasePublisherService<TEvent> : BackgroundService
     {
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly IConnection _connection;
@@ -15,7 +15,7 @@ namespace Common.Services
         private Timer _timer;
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1); 
 
-        protected BasePublisher(
+        protected BasePublisherService (
             IOptions<RabbitMqSettings> rabbitMqOptions,
             string exchangeName,
             string exchangeType = "fanout")

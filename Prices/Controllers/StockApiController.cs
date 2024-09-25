@@ -17,7 +17,7 @@ namespace Prices.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddStock([FromBody] StockInputModel stock)
+        public async Task<IActionResult> AddStock([FromBody] StockDto stock)
         {
             try
             {

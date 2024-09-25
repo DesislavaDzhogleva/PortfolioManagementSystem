@@ -6,7 +6,7 @@ using Prices.Models.Events;
 
 namespace Prices.Services
 {
-    public class PricePublisher : BasePublisher<PriceUpdatedEvent>
+    public class PricePublisher : BasePublisherService<PriceUpdatedEvent>
     {
         private readonly IServiceProvider _serviceProvider;
 

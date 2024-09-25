@@ -7,8 +7,8 @@ namespace Prices.Models.Profiles
     {
         public StockProfile()
         {
-            CreateMap<StockEntity, StockInputModel>();
-            CreateMap<StockInputModel, StockEntity>();
+            CreateMap<StockEntity, StockDto>();
+            CreateMap<StockDto, StockEntity>();
         }
     }
 }

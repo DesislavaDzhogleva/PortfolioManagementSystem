@@ -4,9 +4,9 @@ namespace Prices.Contracts.Services
 {
     public interface IStockService
     {
-        Task<IEnumerable<StockInputModel>> GetStocksAsync();
+        Task<IEnumerable<StockDto>> GetStocksAsync();
 
-        Task AddStockAsync(StockInputModel inputStock);
+        Task AddStockAsync(StockDto inputStock);
 
         Task<bool> StockExistsAsync(string ticker);
     }

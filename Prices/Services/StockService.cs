@@ -29,18 +29,18 @@ namespace Prices.Services
             return await _stockRepository.StockExistsAsync(ticker);
         }
 
-        public async Task AddStockAsync(StockInputModel inputStock)
+        public async Task AddStockAsync(StockDto inputStock)
         {
             var stockEntity = _mapper.Map<StockEntity>(inputStock);
             await _stockRepository.AddStockAsync(stockEntity);
         }
 
-        public async Task<IEnumerable<StockInputModel>> GetStocksAsync()
+        public async Task<IEnumerable<StockDto>> GetStocksAsync()
         {
-            if (!_memoryCache.TryGetValue(CacheConstants.StocksCacheKey, out IEnumerable<StockInputModel> stocks))
+            if (!_memoryCache.TryGetValue(CacheConstants.StocksCacheKey, out IEnumerable<StockDto> stocks))
             {
                 var stockEntities = await _stockRepository.GetAllStocksAsync();
-                stocks = _mapper.Map<IEnumerable<StockInputModel>>(stockEntities);
+                stocks = _mapper.Map<IEnumerable<StockDto>>(stockEntities);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(1));
