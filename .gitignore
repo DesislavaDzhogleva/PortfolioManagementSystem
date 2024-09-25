@@ -367,3 +367,6 @@ FodyWeavers.xsd
 /Prices/appsettings.json
 /Portfolios/appsettings.json
 /Orders/appsettings.json
+/Prices/appsettings.Development.json
+/Portfolios/appsettings.Development.json
+/Orders/appsettings.Development.json
