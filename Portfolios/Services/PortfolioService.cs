@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Portfolios.Contracts;
 using Portfolios.Contracts.Repositories;
-using Portfolios.Data.Models;
 using Portfolios.Models.Events;
 using Portfolios.Models.Responses;
 using Portfolios.Strategies.Factory;
@@ -27,14 +25,18 @@ namespace Portfolios.Services
             var userPortofios = await _portfolioRepository
                 .GetPortfoliosForUserAsync(userId);
 
-            var response = UserPortfolioInvestmentResponse.BaseResponse(userId);
             if (userPortofios != null && userPortofios.Any())
             {
+                var response = UserPortfolioInvestmentResponse.BaseResponse(userId);
                 decimal totalPortfolioValue = userPortofios.Sum(i => i.TotalInvestment);
                 response.Investment = totalPortfolioValue;
+                return response;
             }
-
-            return response;
+            else
+            {
+                var response = UserPortfolioInvestmentResponse.EmptyResponse(userId);
+                return response;
+            }
         }
 
         public async Task HandleOrderExecuted(OrderExecutedEvent orderExecutedEvent)
@@ -64,7 +66,7 @@ namespace Portfolios.Services
                 {
                     portfolio.CurrentPrice = newPrice;
                     portfolio.UpdatedOn = DateTime.UtcNow;
-                    await _portfolioRepository.UpdatePortfolioAsync(portfolio);
+                     _portfolioRepository.UpdatePortfolio(portfolio);
                 }
 
                 await _portfolioRepository.SaveChangesAsync();

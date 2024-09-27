@@ -12,9 +12,9 @@ namespace Portfolios.Contracts.Repositories
 
         Task AddPortfolioAsync(PortfolioEntity portfolio);
 
-        Task UpdatePortfolioAsync(PortfolioEntity portfolio);
+        void UpdatePortfolio(PortfolioEntity portfolio);
 
-        Task RemovePortfolioAsync(PortfolioEntity portfolio);
+        void RemovePortfolio(PortfolioEntity portfolio);
 
         Task SaveChangesAsync();
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Portfolios.Contracts;
 
 namespace Portfolios.Controllers
@@ -20,6 +21,11 @@ namespace Portfolios.Controllers
             try
             {
                var portfolioResult =  await _portfolioService.GetPortfolioValue(userId);
+                if (!portfolioResult.Exists) 
+                {
+                    return NotFound(portfolioResult); 
+                }
+
                 return Ok(portfolioResult);
             }
             catch (Exception ex)

@@ -39,16 +39,14 @@ namespace Portfolios.Repositories
             await _dbContext.Portfolios.AddAsync(portfolio);
         }
 
-        public Task UpdatePortfolioAsync(PortfolioEntity portfolio)
+        public void UpdatePortfolio(PortfolioEntity portfolio)
         {
             _dbContext.Portfolios.Update(portfolio);
-            return Task.CompletedTask;
         }
 
-        public Task RemovePortfolioAsync(PortfolioEntity portfolio)
+        public void RemovePortfolio(PortfolioEntity portfolio)
         {
             _dbContext.Portfolios.Remove(portfolio);
-            return Task.CompletedTask;
         }
 
         public Task SaveChangesAsync()

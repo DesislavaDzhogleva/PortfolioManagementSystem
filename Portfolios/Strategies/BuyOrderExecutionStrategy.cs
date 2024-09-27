@@ -37,7 +37,7 @@ namespace Portfolios.Strategies
                 portfolio.NumberOfShares += orderExecutedEvent.Quantity;
                 portfolio.AveragePrice = ((portfolio.AveragePrice * portfolio.NumberOfShares) + (orderExecutedEvent.Price * orderExecutedEvent.Quantity)) / (portfolio.NumberOfShares + orderExecutedEvent.Quantity);
 
-                await _portfolioRepository.UpdatePortfolioAsync(portfolio);
+                _portfolioRepository.UpdatePortfolio(portfolio);
             }
 
             await _portfolioRepository.SaveChangesAsync();

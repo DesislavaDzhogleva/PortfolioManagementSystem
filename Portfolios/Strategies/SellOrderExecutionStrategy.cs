@@ -21,11 +21,13 @@ namespace Portfolios.Strategies
                 portfolio.NumberOfShares -= orderExecutedEvent.Quantity;
                 if (portfolio.NumberOfShares <= 0)
                 {
-                    await _portfolioRepository.RemovePortfolioAsync(portfolio);
+                    // Remove the portfolio if the number of shares is less than or equal to 0
+                    // Maybe it should be returned how many shares can the user currently can sell and update the order 
+                    _portfolioRepository.RemovePortfolio(portfolio);
                 }
                 else
                 {
-                    await _portfolioRepository.UpdatePortfolioAsync(portfolio);
+                    _portfolioRepository.UpdatePortfolio(portfolio);
                 }
 
                 await _portfolioRepository.SaveChangesAsync();
